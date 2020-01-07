@@ -1,0 +1,118 @@
+<html style='width: 100%; height: 100%'>
+    <head></head>
+    <body style='width: 100%; height: 100%; margin: 0;'>
+        <script type="module" src="/lib/three.module.js"></script>
+        <script type="module" src="./src/js/lib/loaders/GLTFLoader.js"></script>
+        <script type="module" src="./src/js/lib/loaders/MTLLoader.js"></script>
+        <script type="module" src="./src/js/lib/loaders/OBJLoader2.js"></script>
+        <script type="module" src="./src/js/lib/loaders/RGBELoader.js"></script>
+        <script type="module" src="./src/js/lib/loaders/TDSLoader.js"></script>
+        <script type="module" src="./src/js/lib/loaders/TGALoader.js"></script>
+        <script type="module" src="./src/js/lib/controls/TrackballControls.js"></script>
+        <script src="./src/js/lib/controls/ObjectControls.js"></script>
+        <script src="./src/js/lib/Tween.js"></script>
+        <script type="module" src="./src/js/Loader.js"></script>
+        <script type="module" src="./src/js/Scene.js"></script>
+        <div>
+            <div id='left-controls' style='width: 20%; height:100%; float: left; background-color: #333; color: #ddd'>
+                <div style='padding: 10px'>
+                    <ul>
+                        List of stuff
+                        <li>This</li>
+                        <li>Is</li>
+                        <li>A</li>
+                        <li>Demo</li>
+                    </ul>
+                    <select id='model-select'>
+                        <option>space.gltf</option>
+                        <option>falcon.obj</option>
+                        <option>deathstar.obj</option>
+                        <option>f16.obj</option>
+                    </select>
+                    <div>
+                        <span>Clicked Item:</span>
+                        <span id='clicked-item'></span>
+                    </div>
+                </div>
+            </div>
+            <div style='width: 60%; height: 100%; float: left;'>
+                <canvas id='canvas' style='width: 100%; height: 100%'></canvas>
+            </div>
+            <div id='right-controls' style='width: 20%; height: 100%; float: left; background-color: #333; color: #ddd'>
+                <div style='padding: 10px;'>
+                    <h1>Basic</h1>
+                    <p>details are here</p>
+                    <ul>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                        <li>List of things here</li>
+                    </ul>
+                    <button type='button'>Hocus Focus</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="module">
+
+        import Scene from './src/js/Scene.js'
+        console.log("here")
+
+        const scene = new Scene({click: function(object){
+            if(object){
+                document.getElementById('clicked-item').innerText = object.name
+            }
+        }});
+
+        document.getElementById('model-select').addEventListener('change', updateModel);
+        
+        function updateModel(event, a, b, c){
+            let value = '';
+            if(!event){
+                value = document.getElementById('model-select').value;
+            }
+            else {
+                value = event.target.value;
+            }
+
+            const options = {};
+            switch(value){
+                case 'space.gltf':
+                    options.type = 'gltf';
+                    options.name = 'space';
+                    options.gltfPath = '/threejs2/models/obj/space/space.glb';
+                    break;
+                case 'falcon.obj':
+                    options.type = 'obj';
+                    options.name = 'falcon';
+                    options.objPath = '/threejs2/models/obj/falcon/millenium-falcon.obj';
+                    options.mltPath = '/threejs2/models/obj/falcon/millenium-falcon.mtl';
+                    break;
+                case 'deathstar.obj':
+                    options.type = 'obj';
+                    options.name = 'deathstar';
+                    options.objPath = '/threejs2/models/obj/deathstar/death-star-II.obj';
+                    options.mltPath = '/threejs2/models/obj/deathstar/death-star-II.mtl';
+                    break;
+                case 'f16.obj':
+                    options.type = 'obj';
+                    options.name = 'f16';
+                    options.objPath = '/threejs2/models/obj/f16/F16C_US_LOD1_v25.obj';
+                    options.mltPath = '/threejs2/models/obj/f16/F16C_US_LOD1_v25.mtl';
+                    break;
+            }
+
+            scene.loadModel(options);
+        }
+
+        updateModel();
+
+    </script>
+    <footer></footer>
+</html>
